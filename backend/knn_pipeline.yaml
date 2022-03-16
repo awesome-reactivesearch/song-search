@@ -18,3 +18,13 @@ stages:
   - id: kNN search
     scriptRef: "knnSearch.js"
     async: true
+  - id: determine search
+    scriptRef: "determineSearch.js"
+    needs:
+      - kNN search
+  - id: es query:
+    use: elasticsearchQuery
+    inputs:
+      path: "{{esPath}}"
+    needs:
+      - determine search
