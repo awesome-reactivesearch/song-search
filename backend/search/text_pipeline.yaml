@@ -1,0 +1,28 @@
+enabled: true
+description: Text endpoint to search query in lyrics
+
+routes:
+  - path: /text_lyrics_app/_reactivesearch
+    method: POST
+    classify:
+      category: elasticsearch
+      acl: search
+
+envs:
+  index: "lyrics-app-data"
+
+stages:
+  - id: authorize user
+    use: authorization
+  - id: text search
+    scriptRef: "textSearch.js"
+  - id: determine search
+    scriptRef: "determineSearch.js"
+    needs:
+      - text search
+  - id: es query:
+    use: elasticsearchQuery
+    inputs:
+      path: "{{esPath}}"
+    needs:
+      - determine search
