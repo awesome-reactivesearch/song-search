@@ -1,0 +1,24 @@
+enabled: true
+description: Index pipeline to store vectorised data
+
+routes:
+  - path: /lyrics-app-data/_doc
+    method: POST
+    classify:
+      category: elasticsearch
+      acl: index
+
+envs:
+  bertURL: ${{ BERT_URL }}
+
+
+stages:
+  - id: authorize user
+    use: authorization
+  - id: vector data
+    scriptRef: "convertVector.js"
+    async: true
+  - id: merge vector
+    scriptRef: "mergeVector.js"
+    needs:
+      - vector data
