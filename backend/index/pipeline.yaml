@@ -10,6 +10,7 @@ routes:
 
 envs:
   bertURL: ${{ BERT_URL }}
+  method: POST
 
 
 stages:
@@ -22,3 +23,7 @@ stages:
     scriptRef: "mergeVector.js"
     needs:
       - vector data
+  - id: index data
+    use: elasticsearchQuery
+    needs:
+      - merge vector
