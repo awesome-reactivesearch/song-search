@@ -1,0 +1,20 @@
+enabled: true
+description: kNN endpoint to search query in lyrics
+
+routes:
+  - path: /knn_lyrics_app/_reactivesearch
+    method: POST
+    classify:
+      category: elasticsearch
+      acl: search
+
+envs:
+  bertURL: ${{ BERT_URL }}
+  index: "lyrics-app-data"
+
+stages:
+  - id: authorize user
+    use: authorization
+  - id: kNN search
+    scriptRef: "knnSearch.js"
+    async: true
