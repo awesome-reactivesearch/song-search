@@ -12,7 +12,7 @@ async function handleRequest() {
         esPath: `/${context.envs.index}/_knn_search`,
         esBody: {
             knn: {
-                field: "name_vector",
+                field: "lyric_vector",
                 query_vector: vectoredValue,
                 k: 10,
                 num_candidates: 5000
