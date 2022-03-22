@@ -3,8 +3,19 @@ async function handleRequest() {
 
     if (requestBody.query == undefined || requestBody.query.length < 1) return {}
 
-    const queryValue = requestBody.query[0].value
+    var queryValue = undefined;
+    requestBody.query.every(q => {
+        if (q.value != undefined) {
+            queryValue = q.value;
+            return false;
+        }
+        return true;
+    })
+
+    if (queryValue == undefined) return {}
+
     const includeFields = requestBody.query[0].includeFields
+    const ids = requestBody.query.map(q => q.id);
 
     const vectoredValue = await getVectorForData(queryValue);
 
@@ -20,7 +31,8 @@ async function handleRequest() {
             _source: {
                 includes: includeFields
             }
-        }
+        },
+        queryIds: ids
     }
 }
 
