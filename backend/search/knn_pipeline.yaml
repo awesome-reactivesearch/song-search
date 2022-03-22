@@ -22,7 +22,7 @@ stages:
     scriptRef: "determineSearch.js"
     needs:
       - kNN search
-  - id: es query:
+  - id: es query
     use: elasticsearchQuery
     inputs:
       path: "{{esPath}}"
