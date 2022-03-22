@@ -7,6 +7,11 @@ routes:
     classify:
       category: elasticsearch
       acl: search
+  - path: /text_lyrics_app/_reactivesearch.v3
+    method: POST
+    classify:
+      category: elasticsearch
+      acl: search
 
 envs:
   index: "lyrics-app-data"
