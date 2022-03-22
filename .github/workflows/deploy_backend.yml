@@ -1,0 +1,47 @@
+name: Deploy Backend
+
+on: [push]
+
+jobs:
+  deploy_index_pipeline:
+    runs-on: ubuntu-latest
+    name: Deploy Index Endpoint
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Deploy Pipeline
+        uses: appbaseio/pipelines-action@0.1.2
+        with:
+          url: ${{secrets.APPBASEIOURL}}
+          file: "./backend/index/pipeline.yaml"
+          pipeline_id: "lyrics-app-index"
+        env:
+          BERT_URL: ${{ secrets.BERT_URL }}
+
+  deploy_search_text_pipeline:
+    runs-on: ubuntu-latest
+    name: Deploy Text Search Endpoint
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Deploy Pipeline
+        uses: appbaseio/pipelines-action@0.1.2
+        with:
+          url: ${{secrets.APPBASEIOURL}}
+          file: "./backend/search/text_pipeline.yaml"
+          pipeline_id: "lyrics-app-search-text"
+
+  deploy_search_ann_pipeline:
+    runs-on: ubuntu-latest
+    name: Deploy aNN Search Endpoint
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Deploy Pipeline
+        uses: appbaseio/pipelines-action@0.1.2
+        with:
+          url: ${{secrets.APPBASEIOURL}}
+          file: "./backend/search/ann_pipeline.yaml"
+          pipeline_id: "lyrics-app-search-ann"
+        env:
+          BERT_URL: ${{ secrets.BERT_URL }}
