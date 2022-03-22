@@ -19,6 +19,7 @@ jobs:
           BERT_URL: ${{ secrets.BERT_URL }}
 
   deploy_search_text_pipeline:
+    needs: deploy_index_pipeline
     runs-on: ubuntu-latest
     name: Deploy Text Search Endpoint
     steps:
@@ -32,6 +33,7 @@ jobs:
           pipeline_id: "lyrics-app-search-text"
 
   deploy_search_ann_pipeline:
+    needs: deploy_search_text_pipeline
     runs-on: ubuntu-latest
     name: Deploy aNN Search Endpoint
     steps:
