@@ -41,7 +41,7 @@ jobs:
         uses: appbaseio/pipelines-action@0.1.2
         with:
           url: ${{secrets.APPBASEIOURL}}
-          file: "./backend/search/ann_pipeline.yaml"
+          file: "./backend/search/knn_pipeline.yaml"
           pipeline_id: "lyrics-app-search-ann"
         env:
           BERT_URL: ${{ secrets.BERT_URL }}
