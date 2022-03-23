@@ -12,26 +12,34 @@ async function handleRequest() {
         return true;
     })
 
-    if (queryValue == undefined) return {}
-
     const includeFields = requestBody.query[0].includeFields
     const ids = requestBody.query.map(q => q.id);
 
-    const vectoredValue = await getVectorForData(queryValue);
+    const esBodyToPass = {
+        _source: {
+            includes: includeFields
+        }
+    }
+    var esPathToPass = `/${context.envs.index}/_knn_search`;
+
+    if (queryValue != undefined) {
+        const vectoredValue = await getVectorForData(queryValue);
+        esBodyToPass.knn = {
+            field: "lyric_vector",
+            query_vector: vectoredValue,
+            k: 10,
+            num_candidates: 5000
+        }
+    } else {
+        esPathToPass = `/${context.envs.index}/_search`
+        esBodyToPass.query = {
+            match_all: {}
+        }
+    }
 
     return {
-        esPath: `/${context.envs.index}/_knn_search`,
-        esBody: {
-            knn: {
-                field: "lyric_vector",
-                query_vector: vectoredValue,
-                k: 10,
-                num_candidates: 5000
-            },
-            _source: {
-                includes: includeFields
-            }
-        },
+        esPath: esPathToPass,
+        esBody: esBodyToPass,
         queryIds: ids
     }
 }
