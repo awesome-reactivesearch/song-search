@@ -15,7 +15,7 @@ function handleRequest() {
     const includeFields = requestBody.query[0].includeFields
     const ids = requestBody.query.map(q => q.id);
 
-    const queryToPass = {
+    var queryToPass = {
         match: {
             Lyric: {
                 query: queryValue
