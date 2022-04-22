@@ -28,7 +28,7 @@ async function handleRequest() {
             field: "lyric_vector",
             query_vector: vectoredValue,
             k: 10,
-            num_candidates: 9700
+            num_candidates: 10000
         }
     } else {
         esPathToPass = `/${context.envs.index}/_search`
