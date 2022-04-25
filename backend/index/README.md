@@ -8,11 +8,11 @@ We can set the mapping by the following JSON:
 
 ```json
 {
-    "mapping": {
+    "mappings": {
         "properties": {
             "lyric_vector": {
                 "type": "dense_vector",
-                "dims": 1024,
+                "dims": 512,
                 "index": true,
                 "similarity": "cosine"
             }

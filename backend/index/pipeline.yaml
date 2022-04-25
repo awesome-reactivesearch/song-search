@@ -16,13 +16,22 @@ envs:
 stages:
   - id: authorize user
     use: authorization
-  - id: vector data
-    scriptRef: "convertVector.js"
+  - id: add body for vector request
+    scriptRef: "addBody.js"
+  - id: lyric_vector
+    use: httpRequest
     async: true
+    inputs:
+      url: "{{bertURL}}/post"
+      method: POST
+      headers:
+        "Content-Type": "application/json"
+      body: "{{lyricBody}}"
+    continueOnError: false
   - id: merge vector
     scriptRef: "mergeVector.js"
     needs:
-      - vector data
+      - lyric_vector
   - id: index data
     use: elasticsearchQuery
     needs:
