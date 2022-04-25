@@ -32,6 +32,7 @@ stages:
     scriptRef: "mergeVector.js"
     needs:
       - lyric_vector
+    continueOnError: false
   - id: index data
     use: elasticsearchQuery
     needs:
