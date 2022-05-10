@@ -12,7 +12,7 @@ We can set the mapping by the following JSON:
         "properties": {
             "lyric_vector": {
                 "type": "dense_vector",
-                "dims": 512,
+                "dims": 768,
                 "index": true,
                 "similarity": "cosine"
             }
