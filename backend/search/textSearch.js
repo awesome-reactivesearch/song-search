@@ -13,6 +13,7 @@ function handleRequest() {
     })
 
     const includeFields = requestBody.query[0].includeFields
+    const showHighlight = requestBody.query[0].highlight
     const ids = requestBody.query.map(q => q.id);
 
     var queryToPass = {
@@ -29,14 +30,22 @@ function handleRequest() {
         }
     }
 
+    var esBodyToPass = {
+        query: queryToPass,
+        _source: {
+            includes: includeFields
+        }
+    }
+
+    if (showHighlight) esBodyToPass["highlight"] = {
+        fields: {
+            Lyric: {}
+        }
+    }
+
     return {
         esPath: `/${context.envs.index}/_search`,
-        esBody: {
-            query: queryToPass,
-            _source: {
-                includes: includeFields
-            }
-        },
+        esBody: esBodyToPass,
         queryIds: ids
     }
 }
